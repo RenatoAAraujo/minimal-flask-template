@@ -1,0 +1,23 @@
+version: '3.7'
+services:
+    api:
+        build: .
+        user: 1000:1000
+        ports:
+            - ${API_PORT}:${API_PORT}
+        volumes:
+            - ./:/app
+        depends_on:
+            -   mysql
+        restart: always
+        env_file: .env
+    mysql:
+        image: mysql:5.7.36
+        ports:
+            - ${DB_PORT}:${DB_PORT}
+        volumes:
+            - ./initdb:/docker-entrypoint-initdb.d
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_TCP_PORT: ${DB_PORT}
+        env_file: .env

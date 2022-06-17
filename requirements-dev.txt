@@ -1,0 +1,10 @@
+-r requirements.txt
+
+freezegun==1.1.0
+requests-mock==1.9.3
+pytest==7.0.1
+pytest-cov==3.0.0
+pytest-mock==3.7.0
+black==21.12b0
+isort==5.10.1
+pylint==2.12.2
