@@ -1,4 +1,4 @@
 """Group blueprint"""
 from flask import Blueprint
 
-bp = Blueprint("admin_group", __name__)
+group_bp = Blueprint("admin_group", __name__)

@@ -40,6 +40,7 @@ def create_app(deploy_env="Testing"):
 
 
 def resgister_extentions(_app):
+    """Register all Flask app extensions"""
     # jwt
     jwt.init_app(_app)
     jwt.init_app(_app)
@@ -51,26 +52,25 @@ def resgister_extentions(_app):
     cache.init_app(_app)
 
 
-def register_blueprints(app):
+def register_blueprints(_app):
     """Register all flask-restx namespace to the API"""
     # admin
-    from app.admin.group.views import bp as group_bp
+    from app.admin.group.views import group_bp
 
-    app.register_blueprint(group_bp, url_prefix="/api/v1/admin/groups")
+    _app.register_blueprint(group_bp, url_prefix="/api/v1/admin/groups")
 
-    from app.admin.health.views import bp as health_bp
+    from app.admin.health.views import health_bp
 
-    app.register_blueprint(health_bp, url_prefix="/api/v1/admin/health")
+    _app.register_blueprint(health_bp, url_prefix="/api/v1/admin/health")
 
-    from app.admin.users.views import bp as user_admin_bp
+    from app.admin.users.views import user_admin_bp
 
-    app.register_blueprint(user_admin_bp, url_prefix="/api/v1/admin/users")
+    _app.register_blueprint(user_admin_bp, url_prefix="/api/v1/admin/users")
 
     # auth
-    from app.auth.views import bp as auth_bp
+    from app.auth.views import auth_bp
 
-    app.register_blueprint(auth_bp, url_prefix="/api/v1/auth")
-
+    _app.register_blueprint(auth_bp, url_prefix="/api/v1/auth")
 
 
 app = create_app(deploy_env=os.environ.get("APP_ENV"))

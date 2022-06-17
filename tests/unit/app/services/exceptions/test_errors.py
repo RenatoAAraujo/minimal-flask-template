@@ -69,10 +69,7 @@ def test_internal_server_error():
 
 @pytest.mark.parametrize(
     "status_code, error_message",
-    [
-        (422, "Test UnprocessableError"),
-        (500, "Something went wrong!")
-    ]
+    [(422, "Test UnprocessableError"), (500, "Something went wrong!")],
 )
 def test_generate_exception(status_code, error_message):
     with pytest.raises(GenerateError) as e:
@@ -88,7 +85,7 @@ def test_generate_exception(status_code, error_message):
         "Internal error! Field not found: some_field",
         "Internal error! Field not found: another_field",
         "some_random_field does not exists",
-    ]
+    ],
 )
 def test_key_error(error_message):
     with pytest.raises(KeyError) as e:
@@ -97,13 +94,7 @@ def test_key_error(error_message):
     assert str(e.value).replace("'", "") == error_message
 
 
-@pytest.mark.parametrize(
-    "error_message",
-    [
-        "Test NameError",
-        "some name error"
-    ]
-)
+@pytest.mark.parametrize("error_message", ["Test NameError", "some name error"])
 def test_name_error(error_message):
     with pytest.raises(NameError) as e:
         raise NameError(error_message)

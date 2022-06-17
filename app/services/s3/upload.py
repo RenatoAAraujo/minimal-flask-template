@@ -1,9 +1,8 @@
 """AWS S3 helper methods"""
 import json
+
 import requests
-
 from flask import current_app
-
 from werkzeug.utils import secure_filename
 
 

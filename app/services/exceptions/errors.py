@@ -1,10 +1,9 @@
 """Custom error classes"""
 
 import logging
-import sqlalchemy
+from http import HTTPStatus
 
 from flask import jsonify, make_response
-from http import HTTPStatus
 
 from app import jwt
 

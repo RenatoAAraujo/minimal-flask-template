@@ -1,7 +1,15 @@
 from flask import Flask
 from flask_restx import Api
 
-from app import resgister_extentions, register_models, register_namespaces, api, app, create_app, port
+from app import (
+    api,
+    app,
+    create_app,
+    port,
+    register_models,
+    register_namespaces,
+    resgister_extentions,
+)
 
 
 def test_api_instance():
