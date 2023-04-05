@@ -1,4 +1,4 @@
-FROM python:3.10.1-alpine
+FROM python:3.10.3-alpine
 
 ENV DOCKERIZE_VERSION v0.6.1
 RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
