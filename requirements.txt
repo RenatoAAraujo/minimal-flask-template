@@ -1,11 +1,12 @@
 boto3==1.20.35
 Flask==2.1.2
+flask-restx==1.1.0
 Flask_Cors==3.0.10
 werkzeug==2.0.2
 slugify==0.0.1
 passlib==1.7.4
 Flask-JWT-Extended==4.3.1
-waitress==2.0.0
+waitress==2.1.2
 python-dotenv==0.19.2
 PyMySQL==1.0.2
 SQLAlchemy==1.4.29

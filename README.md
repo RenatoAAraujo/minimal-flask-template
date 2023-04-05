@@ -1,7 +1,7 @@
-# Star Wars API integration
+# Minimal Flask Application
 
-The tutorial assumes that the user's OS is UNIX based, **if not make the appropriate changes and select the correct OS in the documentation**. 
-_If running on Windows remember to enable Hyper-V and virtual environments_. 
+The tutorial assumes that the user's OS is UNIX based, **if not make the appropriate changes and select the correct OS in the documentation**.
+_If running on Windows remember to enable Hyper-V and virtual environments_.
 
 ### Pre Requirements
 * [Python 3](https://www.python.org/)
@@ -10,7 +10,7 @@ _If running on Windows remember to enable Hyper-V and virtual environments_.
 ```shell
 sudo apt-get install python3-pip
 ```
- 
+
 * [Docker](https://docs.docker.com/engine/install/debian/)
 
 Create docker group, _**you'll need to reboot after this**_.
@@ -49,6 +49,12 @@ You're ready to go!
 The [black](https://pypi.org/project/black/), [isort](https://pypi.org/project/black/) and [pylint](https://pylint.pycqa.org/en/latest/#) libs are installed in the development env, **use the after every commit**.
 ```shell
 python3 clean_code.py
+```
+
+### API Doc (Swagger)
+The API will be documented using [flask-restx](https://github.com/python-restx/flask-restx) which has Swagger integration builtin. **To access it, run in your browser the fallowing link**:
+```
+http://localhost:5000/doc
 ```
 
 ### Unit Testing
