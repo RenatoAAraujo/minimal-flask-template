@@ -6,9 +6,7 @@ from flask import current_app
 from werkzeug.utils import secure_filename
 
 
-def upload_file3(  # pylint: disable=inconsistent-return-statements
-    image, aws_key, filename=0
-):
+def upload_file3(image, aws_key, filename=0): # pylint: disable=inconsistent-return-statements
     """
     Upload file to S3
 
