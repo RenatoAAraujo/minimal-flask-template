@@ -6,7 +6,6 @@ from app import ma
 
 class JWTTokenBlocklistSchema(ma.Schema):
     """JWTTokenBLockList schema"""
-
     id = fields.Int()
     jti = fields.String()
     created_at = fields.DateTime()
@@ -15,5 +14,4 @@ class JWTTokenBlocklistSchema(ma.Schema):
 
     class Meta:
         """Schema meta class"""
-
         ordered = True

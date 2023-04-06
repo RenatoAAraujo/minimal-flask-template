@@ -1,9 +1,11 @@
 """Authenticcation validations"""
 from app.admin.users.models import User
 from app.services.exceptions.errors import BadRequestError
+from config import Config
 
 
 def _validate_data(data: dict):
+    """Validate user token data consistency"""
     assert isinstance(data, dict), '"data" must be a dict'
 
     if not data.get("username"):

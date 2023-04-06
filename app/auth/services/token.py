@@ -1,6 +1,7 @@
 """JWT token generation methods"""
-from flask import current_app
 from flask_jwt_extended import create_access_token, create_refresh_token
+
+from config import Config
 
 
 def generate_user_jwt(user):
@@ -21,7 +22,7 @@ def generate_user_jwt(user):
 
     data = {
         "token_type": "Bearer",
-        "expires_in": current_app.config["JWT_EXPIRES"],
+        "expires_in": Config.JWT_EXPIRES,
         "access_token": access_token,
         "refresh_token": refresh_token,
     }
