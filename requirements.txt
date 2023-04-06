@@ -12,6 +12,7 @@ PyMySQL==1.0.2
 SQLAlchemy==1.4.29
 Flask-SQLAlchemy==2.5.1
 flask-migrate==3.1.0
+cryptography==40.0.1
 flask-marshmallow==0.14.0
 Flask-Caching==1.10.1
 marshmallow==3.14.1
