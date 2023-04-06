@@ -2,7 +2,7 @@ import os
 from datetime import timedelta
 
 
-class BaseConfig(object):
+class Config:
     # api
     SITE_API_HTTPS = os.environ.get("SITE_HTTPS", "http://localhost:") + str(
         os.environ.get("API_PORT", 5000)
@@ -43,30 +43,14 @@ class BaseConfig(object):
     BASIC_ADMIN = os.environ.get("BASIC_ADMIN")
 
     # aws
-    AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
-    AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
-    AWS_LOCATION = os.environ.get("AWS_LOCATION")
-    AWS_BUCKET = os.environ.get("AWS_BUCKET")
+    AWS_ACCESS_KEY_ID = None
+    AWS_SECRET_ACCESS_KEY = None
+    AWS_LOCATION = None
+    AWS_BUCKET = None
     AWS_BUCKET_LOCATION = AWS_LOCATION
-    AWS_BUCKET_CLOUDFRONT = os.environ.get("AWS_BUCKET_CLOUDFRONT")
+    AWS_BUCKET_CLOUDFRONT = None
 
-    DEBUG = False
-
-
-class TestingConfig(BaseConfig):
-    DEBUG = True
-    TESTING = True
-    SQLALCHEMY_POOL_SIZE = None
-    CACHE_TYPE = "NULL"
-    CACHE_TIME = 60
-    CACHE_CONFIG = "{}"
-    JWT_EXPIRES = 604800
-
-
-class DevelopmentConfig(BaseConfig):
-    DEBUG = True
-    JWT_EXPIRES = 604800
-
-
-class ProductionConfig(BaseConfig):
-    pass
+    if os.environ.get("APP_ENV") == "development":
+        DEBUG = True
+    else:
+        DEBUG = False
