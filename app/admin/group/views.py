@@ -19,7 +19,6 @@ from app.services.exceptions.errors import (
     BadRequestError,
     ConflictError,
     InternalServerError,
-    MethodNotAllowedError,
     NotFoundError,
     UnauthorizedError,
 )
@@ -53,7 +52,6 @@ class Group(Resource):
             BadRequestError,
             ConflictError,
             InternalServerError,
-            MethodNotAllowedError,
             NotFoundError,
             UnauthorizedError,
         ) as e:
@@ -79,7 +77,6 @@ class Group(Resource):
             BadRequestError,
             ConflictError,
             InternalServerError,
-            MethodNotAllowedError,
             NotFoundError,
             UnauthorizedError,
         ) as e:
@@ -104,7 +101,6 @@ class Group(Resource):
             BadRequestError,
             ConflictError,
             InternalServerError,
-            MethodNotAllowedError,
             NotFoundError,
             UnauthorizedError,
         ) as e:
@@ -134,7 +130,6 @@ class Groups(Resource):
             BadRequestError,
             ConflictError,
             InternalServerError,
-            MethodNotAllowedError,
             NotFoundError,
             UnauthorizedError,
         ) as e:
@@ -160,7 +155,6 @@ class Groups(Resource):
             BadRequestError,
             ConflictError,
             InternalServerError,
-            MethodNotAllowedError,
             NotFoundError,
             UnauthorizedError,
         ) as e:
