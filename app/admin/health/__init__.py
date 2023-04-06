@@ -1,4 +1,9 @@
 """Health blueprint"""
-from flask import Blueprint
+from flask_restx import Namespace
 
-health_bp = Blueprint("admin_health", __name__)
+from app.admin.health.swagger.models import get_health
+
+health_api = Namespace("admin_health", description="API health status")
+
+# models
+health_api.models["get_health"] = get_health
