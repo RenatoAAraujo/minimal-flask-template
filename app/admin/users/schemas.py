@@ -7,7 +7,6 @@ from app.admin.group.schemas import GroupSchema
 
 class UserSchema(ma.Schema):
     """User Schema"""
-
     id = fields.Int()
     hash_id = fields.String()
     name = fields.String()
@@ -28,5 +27,4 @@ class UserSchema(ma.Schema):
 
     class Meta:
         """Schema meta class"""
-
         ordered = True

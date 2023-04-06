@@ -9,9 +9,8 @@ from database.base_model import BaseModel
 
 class User(db.Model, BaseModel):  # pylint: disable=inconsistent-mro
     """
-    User table
+    Credential levels
 
-    Credential levels:
     1 - System
     2 - Admin
     3 - Employee
@@ -51,7 +50,7 @@ class User(db.Model, BaseModel):  # pylint: disable=inconsistent-mro
         return pbkdf2_sha256.verify(candidate, self.password)
 
     def create_item(self, model_dict):
-        """Create database registry"""
+        """Create database entry"""
         self.hash_id = str(uuid.uuid4())
         self.name = model_dict["name"]
         self.email = model_dict["email"]
@@ -68,7 +67,7 @@ class User(db.Model, BaseModel):  # pylint: disable=inconsistent-mro
         return self
 
     def update_item(self, model_dict):
-        """Update database registry"""
+        """Update database entry"""
         try:
             self.set_password(model_dict["password"])
         except KeyError:
