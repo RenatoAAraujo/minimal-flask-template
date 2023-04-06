@@ -2,8 +2,9 @@
 import json
 
 import requests
-from flask import current_app
 from werkzeug.utils import secure_filename
+
+from config import Config
 
 
 def upload_file3(image, aws_key, filename=0): # pylint: disable=inconsistent-return-statements
@@ -17,25 +18,23 @@ def upload_file3(image, aws_key, filename=0): # pylint: disable=inconsistent-ret
     if filename == 0:
         filename = secure_filename(image.filename)
 
-    path = f"{aws_key}/original/{filename}"
+    path = "{}/original/{}".format(aws_key, filename)
 
     api_endpoint = "https://api.kraken.io/v1/upload"
     headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 6.1; Win64; x64)"
-        " AppleWebKit/537.36 (KHTML, like Gecko)"
-        " Chrome/40.0.2214.85 Safari/537.36"
+        "User-Agent": "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.85 Safari/537.36"
     }
     files = {"file": image}
     params = {
         "auth": {
-            "api_key": current_app.config["KRAKEN_API_KEY"],
-            "api_secret": current_app.config["KRAKEN_API_SECRET"],
+            "api_key": Config.KRAKEN_API_KEY,
+            "api_secret": Config.KRAKEN_API_SECRET,
         },
         "s3_store": {
-            "key": current_app.config["AWS_ACCESS_KEY_ID"],
-            "secret": current_app.config["AWS_SECRET_ACCESS_KEY"],
-            "bucket": current_app.config["AWS_BUCKET"],
-            "region": current_app.config["AWS_BUCKET_LOCATION"],
+            "key": Config.AWS_ACCESS_KEY_ID,
+            "secret": Config.AWS_SECRET_ACCESS_KEY,
+            "bucket": Config.AWS_BUCKET,
+            "region": Config.AWS_BUCKET_LOCATION,
         },
         "wait": True,
         "resize": [
