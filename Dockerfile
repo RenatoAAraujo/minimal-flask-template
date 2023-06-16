@@ -1,32 +1,41 @@
-FROM python:3.10.3-alpine
+FROM python:3.10.3-alpine as base
+
+COPY requirements.txt requirements-dev.txt /app/
 
 ENV DOCKERIZE_VERSION v0.6.1
 RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
     && tar -C /usr/local/bin -xzvf dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
     && rm dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
-    && apk add musl-dev gcc tzdata gzip\
-    && cp /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime \
-    && echo "America/Sao_Paulo" >  /etc/timezone \
-    && apk del tzdata \
+    && apk add musl-dev gcc gzip\
     && pip3 install --upgrade pip
 
-WORKDIR /app
-COPY requirements.txt .
-COPY requirements-dev.txt .
+############# Debugger #############
+FROM base as debug
 
 RUN mkdir /.cache \
     && mkdir /.cache/pylint \
     && chmod 777 -R /.cache
 
-ARG APP_ENV
-RUN if [ "APP_ENV" == "production" ] ; then \
-      echo "Installing requirements.txt" && pip install -r requirements.txt; \
-    else \
-      echo "Installing requirements-dev.txt" && pip install -r requirements-dev.txt; \
-    fi
+RUN echo "Installing requirements-dev.txt" && pip install -r /app/requirements-dev.txt;
 
-COPY docker_entrypoint.py /docker_entrypoint.py
-RUN chmod +x /docker_entrypoint.py
-COPY . .
+COPY . /app
+WORKDIR /app
 
-CMD ["python", "/docker_entrypoint.py" ]
+RUN chmod +x /app/wait_migration.py /app/app.py
+RUN python /app/wait_migration.py
+
+ARG FLASK_DEBUG=1
+
+CMD python -m debugpy --listen 0.0.0.0:5678 app.py
+############# Prod #############
+FROM base as prod
+
+RUN echo "Installing requirements.txt" && pip install -r /app/requirements.txt;
+
+COPY . /app
+WORKDIR /app
+
+RUN chmod +x /app/wait_migration.py /app/app.py
+RUN python /app/wait_migration.py
+
+CMD python app.py

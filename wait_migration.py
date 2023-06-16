@@ -10,5 +10,3 @@ if os.environ.get("DB_MIGRATE"):
             f"dockerize -wait tcp://{os.environ.get('DB_HOST')}:{os.environ.get('DB_PORT_TEST')} -timeout {os.environ.get('DB_WAIT')}"
         )
     os.system("flask db upgrade")
-
-os.system(f"python ./run.py {os.environ.get('API_PORT')}")
