@@ -6,11 +6,6 @@ _If running on Windows remember to enable Hyper-V and virtual environments_.
 ### Pre Requirements
 * [Python 3](https://www.python.org/)
 
-* [python3-pip](https://pypi.org/project/pip/)
-```shell
-sudo apt-get install python3-pip
-```
-
 * [Docker](https://docs.docker.com/engine/install/debian/)
 
 Create docker group, _**you'll need to reboot after this**_.
