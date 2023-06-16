@@ -51,6 +51,4 @@ class Config:
     AWS_BUCKET_CLOUDFRONT = None
 
     if os.environ.get("APP_ENV") == "development":
-        DEBUG = True
-    else:
-        DEBUG = False
+        FLASK_DEBUG = 1
