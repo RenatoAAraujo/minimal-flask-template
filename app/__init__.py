@@ -51,7 +51,6 @@ def __resgister_extentions(_app):
     """Register all flask app extensions"""
     # jwt
     jwt.init_app(_app)
-    jwt.init_app(_app)
 
     # database
     db.init_app(_app)
