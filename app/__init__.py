@@ -1,10 +1,15 @@
 """Flask app creatrion with flask-restx"""
 import logging
 import os
+import sqlalchemy
+import werkzeug
 
 from flask import Flask, url_for
+from flask_jwt_extended.exceptions import RevokedTokenError
 from flask_restx import Api
+from http import HTTPStatus
 from waitress import serve
+from werkzeug.exceptions import MethodNotAllowed
 
 from app.services.extensions import cache, jwt, ma, migrate
 from database.config_sqlalchemy import db, migrate
@@ -96,6 +101,89 @@ def __register_models():
     _api.models["error"] = error_model
 
 
+def __resister_error_handlers():
+    @_api.errorhandler
+    def _r__exception(e: Exception):
+        """When a unhandled exception is raised"""
+        app.logger.exception(e)
+        status = getattr(e, 'code', 500)
+        response = {
+            "status": status,
+            "message": getattr(e, 'message', str(e))
+        }
+        return response, status
+
+    @_api.errorhandler(RevokedTokenError)
+    def _r_revoked_token_exception(e):
+        """Unhandled expired and blacklisted tokens"""
+        app.logger.exception(e)
+        response = {
+            "status": HTTPStatus.UNAUTHORIZED,
+            "message": "Token has been revoked"
+        }
+        return response, 401
+
+
+    @_api.errorhandler(MethodNotAllowed)
+    def _r_method_not_allowed(e):
+        """Unhandled not allowed methods"""
+        app.logger.exception(e)
+        response = {
+            "status": HTTPStatus.METHOD_NOT_ALLOWED,
+            "message": "Method not Allowed"
+        }
+        return response, 405
+
+    @_api.errorhandler(sqlalchemy.exc.InternalError)
+    def _r_sql_error(e):
+        app.logger.exception(e)
+        """Unhandled database errors"""
+        response = {
+            "status": HTTPStatus.INTERNAL_SERVER_ERROR,
+            "message": "SQL Error: {}".format(e.orig.args[1]),
+        }
+        return response, 500
+
+
+    @_api.errorhandler(werkzeug.exceptions.BadRequest)
+    def _r_bad_request(e):
+        app.logger.exception(e)
+        """Unhandled bad requests"""
+        response = {
+            "status": HTTPStatus.BAD_REQUEST,
+            "message": "Bad request"
+        }
+        return response, 400
+
+
+    @_api.errorhandler(werkzeug.exceptions.NotFound)
+    def _r_not_found(e):
+        app.logger.exception(e)
+        """Unhadled not found"""
+        response = {
+            "status": HTTPStatus.NOT_FOUND,
+            "message": "Not Found"
+        }
+        return response, 404
+
+
+    @jwt.invalid_token_loader
+    def _expired_token_callbacks(c):
+        app.logger.exception(e)
+        """Invalid login request"""
+        return {"status": 422, "message": f"Unidentified Token"}, 422
+
+
+    @jwt.unauthorized_loader
+    def _expired_token_callback(c):
+        app.logger.exception(e)
+        """Incorrect login request"""
+        return {"status": 401, "message": f"Token not sent"}, 401
+
+    _api.default_error_handler = Exception
+    _api.error_handlers[Exception] = _r__exception
+
+
 _api = Api(
     version="1.0",
     title="Barber API",
@@ -104,6 +192,7 @@ _api = Api(
 )
 __register_namespaces()
 __register_models()
+__resister_error_handlers()
 
 
 app = create_app(_api)
