@@ -21,12 +21,10 @@ RUN echo "Installing requirements-dev.txt" && pip install -r /app/requirements-d
 COPY . /app
 WORKDIR /app
 
-RUN chmod +x /app/wait_migration.py /app/app.py
-RUN python /app/wait_migration.py
+RUN chmod +x /app/app.py
 
-ARG FLASK_DEBUG=1
-
-CMD python -m debugpy --listen 0.0.0.0:5678 app.py
+ENTRYPOINT [ "python", "-m", "debugpy", "--listen", "0.0.0.0:5678", "app.py" ]
+# CMD python -m debugpy --listen 0.0.0.0:5678 app.py
 ############# Prod #############
 FROM base as prod
 
@@ -35,7 +33,6 @@ RUN echo "Installing requirements.txt" && pip install -r /app/requirements.txt;
 COPY . /app
 WORKDIR /app
 
-RUN chmod +x /app/wait_migration.py /app/app.py
-RUN python /app/wait_migration.py
+RUN chmod +x /app/app.py
 
-CMD python app.py
+ENTRYPOINT [ "python", "app.py" ]
