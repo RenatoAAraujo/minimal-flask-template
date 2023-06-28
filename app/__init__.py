@@ -114,7 +114,7 @@ def __resister_error_handlers():
         return response, status
 
     @_api.errorhandler(RevokedTokenError)
-    def _r_revoked_token_exception(e):
+    def _r_revoked_token_exception(e: RevokedTokenError):
         """Unhandled expired and blacklisted tokens"""
         app.logger.exception(e)
         response = {
@@ -125,7 +125,7 @@ def __resister_error_handlers():
 
 
     @_api.errorhandler(MethodNotAllowed)
-    def _r_method_not_allowed(e):
+    def _r_method_not_allowed(e: MethodNotAllowed):
         """Unhandled not allowed methods"""
         app.logger.exception(e)
         response = {
@@ -135,7 +135,7 @@ def __resister_error_handlers():
         return response, 405
 
     @_api.errorhandler(sqlalchemy.exc.InternalError)
-    def _r_sql_error(e):
+    def _r_sql_error(e: sqlalchemy.exc.InternalError):
         app.logger.exception(e)
         """Unhandled database errors"""
         response = {
@@ -146,7 +146,7 @@ def __resister_error_handlers():
 
 
     @_api.errorhandler(werkzeug.exceptions.BadRequest)
-    def _r_bad_request(e):
+    def _r_bad_request(e: werkzeug.exceptions.BadRequest):
         app.logger.exception(e)
         """Unhandled bad requests"""
         response = {
@@ -157,7 +157,7 @@ def __resister_error_handlers():
 
 
     @_api.errorhandler(werkzeug.exceptions.NotFound)
-    def _r_not_found(e):
+    def _r_not_found(e: werkzeug.exceptions.NotFound):
         app.logger.exception(e)
         """Unhadled not found"""
         response = {
@@ -207,3 +207,4 @@ else:
         app.run(host="0.0.0.0", port=port, debug=True)
     except Exception as e:
         print(f"Error:\n{str(e)}")
+
